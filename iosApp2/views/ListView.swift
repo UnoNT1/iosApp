@@ -13,8 +13,8 @@ struct UsuarioEmpresa: Identifiable {
     let usuario: String
     let empresa: String
 }
-//Lista
 
+//Lista de usuarios con sus respectivas empresas
 struct ListView: View {
     @State private var usuariosEmpresas: [UsuarioEmpresa] = []
     @State private var filtro: String = ""
