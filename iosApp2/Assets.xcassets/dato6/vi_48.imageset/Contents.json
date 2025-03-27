@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "vi_48.png",
       "idiom" : "iphone",
       "scale" : "1x"
     },
     {
+      "filename" : "vi_48.png",
       "idiom" : "iphone",
       "scale" : "2x"
     },
