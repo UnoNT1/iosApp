@@ -20,7 +20,8 @@ struct ListView: View {
     @State private var filtro: String = ""
     let username: String
     let password: String
-
+    @Environment(\.dismiss) var dismiss
+    
     var usuariosEmpresasFiltrados: [UsuarioEmpresa] {
         if filtro.isEmpty {
             return usuariosEmpresas
@@ -28,13 +29,14 @@ struct ListView: View {
             return usuariosEmpresas.filter { $0.usuario.localizedCaseInsensitiveContains(filtro) }
         }
     }
-
+    
     var body: some View {
         VStack {
+            BackButton()
             TextField("Filtrar usuarios", text: $filtro)
                 .padding()
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-
+            
             if usuariosEmpresasFiltrados.isEmpty && !filtro.isEmpty {
                 Text("No se encontraron usuarios")
             } else if !usuariosEmpresas.isEmpty {
@@ -43,19 +45,20 @@ struct ListView: View {
                         Text(usuarioEmpresa.usuario)
                         Spacer()
                         Text(usuarioEmpresa.empresa)
-                    }
-                }
+                    }.listRowBackground(Color.clear)
+                }.listStyle(PlainListStyle())
+                    .background(Color.clear)
             } else {
                 Text("Cargando usuarios...")
             }
-        }
-        .navigationTitle("Usuarios")
+        } .navigationTitle("Usuarios")
         .onAppear {
             cargarUsuarios()
         }
-    }
+}
 
     func cargarUsuarios() {
+        print("cargando usuarios...")
         obtenerTodosUsuarios(username: username, password: password) { usuariosYEmpresas, error in
             if let error = error {
                 print("Error al obtener usuarios: \(error)")
