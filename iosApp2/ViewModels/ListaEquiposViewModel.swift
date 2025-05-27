@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 //donde se alamcene el resultado de la api
-struct Equipo: Identifiable, Codable {
+/*struct Equipo: Identifiable, Codable {
     let id = UUID()
     let tit_as00: String?
     let cta_as00: Int?
@@ -80,4 +80,4 @@ class ListaEquiposNombreViewModel: ObservableObject {
             }
         }.resume()
     }
-}
+}*/

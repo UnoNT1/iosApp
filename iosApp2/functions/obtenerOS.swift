@@ -36,7 +36,7 @@ func obtenerOrdenServicio(empresa: String, servicio: String? = nil, estado: Stri
     components?.queryItems = [URLQueryItem(name: "empresa", value: empresa)]
 
     if let servicio = servicio, !servicio.isEmpty {
-        components?.queryItems?.append(URLQueryItem(name: "servicio", value: servicio))
+        components?.queryItems?.append(URLQueryItem(name: "tipo", value: servicio))
     }
 
     if let estado = estado, !estado.isEmpty {

@@ -20,6 +20,10 @@
 		7A4139ED2D97415D00601EB8 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4139EC2D97415C00601EB8 /* BackButton.swift */; };
 		7A4A1D362D8C8B3700C848E6 /* ConfigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4A1D352D8C8B3700C848E6 /* ConfigView.swift */; };
 		7A4A1D382D8C9B7900C848E6 /* WelcomeVendedorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4A1D372D8C9B7900C848E6 /* WelcomeVendedorView.swift */; };
+		7A50C7B82DE63C5300B4B20F /* EquiposView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A50C7B72DE63C5300B4B20F /* EquiposView.swift */; };
+		7A50C7BA2DE63E5F00B4B20F /* obtenerEquipos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A50C7B92DE63E5F00B4B20F /* obtenerEquipos.swift */; };
+		7A50C7BC2DE63F4D00B4B20F /* EquiposViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A50C7BB2DE63F4D00B4B20F /* EquiposViewModel.swift */; };
+		7A50C7BE2DE6412300B4B20F /* ButtonState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A50C7BD2DE6412300B4B20F /* ButtonState.swift */; };
 		7A61A9CE2D7A1527008B70C5 /* AgendaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A61A9CD2D7A1527008B70C5 /* AgendaView.swift */; };
 		7A61A9D02D7A210E008B70C5 /* obtenerReclamos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A61A9CF2D7A210E008B70C5 /* obtenerReclamos.swift */; };
 		7A61A9D22D7A299C008B70C5 /* PrincipalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A61A9D12D7A299C008B70C5 /* PrincipalView.swift */; };
@@ -73,6 +77,10 @@
 		7A4139EC2D97415C00601EB8 /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
 		7A4A1D352D8C8B3700C848E6 /* ConfigView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigView.swift; sourceTree = "<group>"; };
 		7A4A1D372D8C9B7900C848E6 /* WelcomeVendedorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVendedorView.swift; sourceTree = "<group>"; };
+		7A50C7B72DE63C5300B4B20F /* EquiposView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EquiposView.swift; sourceTree = "<group>"; };
+		7A50C7B92DE63E5F00B4B20F /* obtenerEquipos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = obtenerEquipos.swift; sourceTree = "<group>"; };
+		7A50C7BB2DE63F4D00B4B20F /* EquiposViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EquiposViewModel.swift; sourceTree = "<group>"; };
+		7A50C7BD2DE6412300B4B20F /* ButtonState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonState.swift; sourceTree = "<group>"; };
 		7A61A9CD2D7A1527008B70C5 /* AgendaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgendaView.swift; sourceTree = "<group>"; };
 		7A61A9CF2D7A210E008B70C5 /* obtenerReclamos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = obtenerReclamos.swift; sourceTree = "<group>"; };
 		7A61A9D12D7A299C008B70C5 /* PrincipalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrincipalView.swift; sourceTree = "<group>"; };
@@ -134,6 +142,7 @@
 				7AA441AC2DCD38A300B57B84 /* ClientesViewModel.swift */,
 				7A899F922DCE78A80041C6BE /* SelectorClientesView.swift */,
 				7AC707B72DE103BF00ACE427 /* PhotoUploaderViewModel.swift */,
+				7A50C7BB2DE63F4D00B4B20F /* EquiposViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -166,6 +175,7 @@
 				7A899F902DCE760F0041C6BE /* IngresoView.swift */,
 				7A899F962DCE88E10041C6BE /* ListaEquiposView.swift */,
 				7AC707B92DE103E700ACE427 /* UploadPhotoView.swift */,
+				7A50C7B72DE63C5300B4B20F /* EquiposView.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -227,6 +237,7 @@
 				7A27F4ED2DC15F9300EAFB94 /* tareasOs.swift */,
 				7AA441A72DCD25BF00B57B84 /* borrarOS.swift */,
 				7AC707B52DE1038900ACE427 /* ImagePicker.swift */,
+				7A50C7B92DE63E5F00B4B20F /* obtenerEquipos.swift */,
 			);
 			path = functions;
 			sourceTree = "<group>";
@@ -236,6 +247,7 @@
 			children = (
 				7AE360D72D95BD0D0045D85D /* CircularButton.swift */,
 				7A4139EC2D97415C00601EB8 /* BackButton.swift */,
+				7A50C7BD2DE6412300B4B20F /* ButtonState.swift */,
 			);
 			path = components;
 			sourceTree = "<group>";
@@ -336,6 +348,7 @@
 				7AAF34382D832497001578EB /* ComprobantesImputadosView.swift in Sources */,
 				7AAF343A2D8331D2001578EB /* obtenerImputados.swift in Sources */,
 				7AE360D82D95BD0D0045D85D /* CircularButton.swift in Sources */,
+				7A50C7BA2DE63E5F00B4B20F /* obtenerEquipos.swift in Sources */,
 				7A3FDCEC2D7B5D55002858CE /* obtenerRecibos.swift in Sources */,
 				7AA441AA2DCD2FBE00B57B84 /* NuevaOS.swift in Sources */,
 				7A01525F2D8B4FB500361E17 /* numeroRandom.swift in Sources */,
@@ -343,6 +356,7 @@
 				7A899F912DCE760F0041C6BE /* IngresoView.swift in Sources */,
 				7AC57B1A2DD274E7000A9707 /* ListaEquiposViewModel.swift in Sources */,
 				7A899F972DCE88E10041C6BE /* ListaEquiposView.swift in Sources */,
+				7A50C7BE2DE6412300B4B20F /* ButtonState.swift in Sources */,
 				7AC707B82DE103BF00ACE427 /* PhotoUploaderViewModel.swift in Sources */,
 				7A4A1D382D8C9B7900C848E6 /* WelcomeVendedorView.swift in Sources */,
 				7AE38B172DA589FD00747B96 /* convertirHora.swift in Sources */,
@@ -363,8 +377,10 @@
 				7A3FDCF02D7B844A002858CE /* SeleccionUsuarioView.swift in Sources */,
 				7AA758742D6F8261007B2625 /* WelcomeView.swift in Sources */,
 				7A22D0102DA46138004C2134 /* ReclamosView.swift in Sources */,
+				7A50C7B82DE63C5300B4B20F /* EquiposView.swift in Sources */,
 				7AC707BA2DE103E700ACE427 /* UploadPhotoView.swift in Sources */,
 				7A61A9D02D7A210E008B70C5 /* obtenerReclamos.swift in Sources */,
+				7A50C7BC2DE63F4D00B4B20F /* EquiposViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

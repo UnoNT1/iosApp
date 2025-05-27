@@ -109,12 +109,6 @@ struct IngresoView:View {
                 mostrandoSelectorCliente = false
             })
         }
-        .sheet(isPresented: $mostrarListaEquipos) {
-            ListaEquiposNombreView(empresa: configData.empresaConfig, nombreCliente: clienteSeleccionado?.ord_cl00 ?? "") { nombreEquipo in
-                nombreEquipoSeleccionado = nombreEquipo // Recibe el nombre del equipo seleccionado
-                print("Equipo seleccionado en la vista padre: \(nombreEquipo)")
-            }
-        }
         .alert(isPresented: $mostrarAlertaClienteNoSeleccionado) { // Presenta la alerta
             Alert(
                 title: Text("Seleccionar Cliente"),

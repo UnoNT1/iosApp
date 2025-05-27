@@ -18,7 +18,7 @@ struct OrdenesServicioView: View {
     let estados = ["En_Proceso", "Conforme", "Observada", "Terminada_OK", "OS Futura", "OS Anulada", "Facturada", "Presupuesto", "Pendiente", "Todos"]
     
     @State private var servicioSeleccionado: String = "Todos" // Valor por defecto
-    let servicios = ["Reparación", "Mantenimiento", "Instalación", "Reclamo", "Ingeniero", "Fact.Masiva", "Todos"]
+    let servicios = ["Reparaciones", "Mantenimiento", "Instalaciones", "Reclamo", "Ingeniero", "Fact.Masiva", "Todos"]
     //variable que maneja si el array de la api esta vacio
     @State private var noSeEncontraronRegistros: Bool = false
     @State private var isShowingVerOsView = false

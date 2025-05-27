@@ -22,9 +22,7 @@ struct ReclamosView: View {
                 Text("Error al cargar los reclamos: \(error.localizedDescription)")
                     .foregroundColor(.red)
             } else{
-                List(reclamos.filter { reclamo in
-                    !((reclamo.pDetalle ?? "").isEmpty && (reclamo.pOrigen ?? "").isEmpty && (reclamo.pFecha ?? "").isEmpty && (reclamo.pHora ?? "").isEmpty)
-                }){ reclamo in
+                List(reclamos) { reclamo in
                     NavigationLink(destination: EditarReclamoView(reclamo: reclamo)) { //Redirige a la vista de detalle
                         VStack(alignment: .leading) {
                             VStack(alignment: .leading){

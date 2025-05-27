@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+/*
 //vista que muestra la lista de equipos
 struct ListaEquiposNombreView: View {
     @Environment(\.dismiss) var dismiss
@@ -72,4 +73,4 @@ struct ListaEquiposNombreView: View {
             }
         }
     }
-}
+}*/

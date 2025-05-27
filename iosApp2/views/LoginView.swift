@@ -72,7 +72,7 @@ struct LoginView: View {
             
             // Navegación a la pantalla de bienvenida OS
             .fullScreenCover(isPresented: $isLoggedIn){
-                WelcomeView(username: username, password: password)
+                WelcomeView()
                     .interactiveDismissDisabled(true)
             }
             

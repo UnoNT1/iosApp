@@ -10,7 +10,7 @@ import SwiftUI
 
 //clase para q estas variables sean accesibles para todas las vistas
 class ConfigData: ObservableObject {
-    @Published var menuValue: String = "Vendedor"
+    @Published var menuValue: String = "OS"
     @Published var usuarioConfig: String = "Demo"
     @Published var empresaConfig: String = "Demo"
     @Published var ipConfig: String = "https://www.unont.com.ar/yavoy/sistemas/dato5/android/"

@@ -97,7 +97,7 @@ func obtenerReclamos(desdeFecha: String, hastaFecha: String, completion: @escapi
                 }
                 */
 
-                print("Decodificación exitosa. Se encontraron \(resultados.count) reclamos.")
+                //print("Decodificación exitosa. Se encontraron \(resultados.count) reclamos.")
                 completion(resultados, nil)
 
             } catch let decodingError as DecodingError {

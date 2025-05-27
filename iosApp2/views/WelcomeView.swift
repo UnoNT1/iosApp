@@ -7,38 +7,45 @@
 
 import SwiftUI
 
-enum NavigationItem: String, CaseIterable, Identifiable {
-    case usuarios = "Usuarios"
-    case ordenesServicios = "Ordenes de Servicio"
-    case equipos = "Equipos"
-    case personas = "Personas"
-    case permisos = "Permisos"
-    case stockInsumos = "Stock Insumos"
-    
-    var id: String { self.rawValue }
-}
-
-
 // Vista de bienvenida, una vez que las credenciales del usuario son validas
 struct WelcomeView: View {
-    var username: String
-    var password: String
-    @EnvironmentObject var configData: ConfigData
-    @State private var mostrarTextField = false
-    @State private var textoBusqueda = ""
     @Environment(\.dismiss) var dismiss
-    @State private var isShowingRecibosView = false
-    @State private var isShowingCuentasView = false
+    @EnvironmentObject var configData: ConfigData
     
+    enum NavigationItem: String, CaseIterable, Identifiable {
+        //case agenda = "Agenda"
+        //case notasDePedido = "Notas de Pedido"
+       // case entradaSalidas = "Entradas / Salidas"
+        //case cuentas = "Cuentas"
+        case equipos = "Equipos"
+        case ordenesServicios = "Ordenes de Servicio"
+        //case consultaCodigos = "Consulta Codigos"
+       // case emisionRecibos = "Emision de Recibos"
+        //case actividadesNegocio = "Actividades en la Unidad de Negocio"
+        
+        var id: String { self.rawValue }
+    }
     
     //variable donde se almacenara el item que seleccione el usuario
     @State private var selectedItem: NavigationItem? = nil
+    @State private var mostrarTextField = false
+    @State private var textoBusqueda = ""
     @State var nombreModulo: String = "MODULO GENERAL"
+    @State private var isShowingMarcarIngreso = false
+    @State private var isShowingCuentas = false
     
     var body: some View {
         NavigationView{
-            VStack {
-                Text("\(configData.usuarioConfig)").padding()
+            VStack{
+                HStack{
+                    Text("\(configData.usuarioConfig)")
+                    Button(action:{
+                        isShowingMarcarIngreso = true
+                        
+                    }){
+                        Image("ingreso_32").resizable().scaledToFill().frame(width: 40, height: 40)
+                    }
+                }
                 ReclamosView()
                 Spacer()
                 HStack{
@@ -49,84 +56,65 @@ struct WelcomeView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 48, height: 48)
-                    }
-                    //va hacia la vista ReciboSueldos
+                    }.padding(.horizontal)
                     Button(action:{
-                        isShowingRecibosView = true
+                        isShowingCuentas = true
                     }){
-                        Image("re_48")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 48, height: 48)
-                    }
+                        Image("vi_32").resizable().scaledToFill().frame(width: 48, height: 48)
+                    }.padding(.horizontal)
                     Button(action:{
-                        isShowingCuentasView = true
+                        selectedItem = .ordenesServicios
                     }){
-                        Image("vi_48")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 48, height: 48)
-                    }
+                        Text(configData.menuValue)
+                    }.padding(.horizontal)
                 }
                 
             }
             //menu tres puntitos
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    // boton para activar el buscador
-                    Button(action:{
-                        mostrarTextField.toggle()
-                    }){
-                        Image("doc")
-                    }
-                    
-                    if mostrarTextField {
-                        TextField("Buscar...", text: $textoBusqueda)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding()
-                    }
-                    NavigationLink(destination: AgendaView(nombreModulo: $nombreModulo)) {
-                        Image(systemName: "calendar").resizable().frame(width: 30, height: 30).padding()
-                    }
-                    
-                    Menu() {
-                        ForEach(NavigationItem.allCases) { item in
-                            Button(item.rawValue) {
-                                selectedItem = item
-                                
-                            }
+                        // boton para activar el buscador
+                        Button(action:{
+                            mostrarTextField.toggle()
+                        }){
+                            Image("doc").resizable().scaledToFill().frame(width: 30, height: 30)
                         }
-                    }label:{Image(systemName: "ellipsis").resizable().scaledToFill().frame(width: 30)}
+                        
+                        if mostrarTextField {
+                            TextField("Buscar...", text: $textoBusqueda)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .padding()
+                        }
+                    NavigationLink(destination: AgendaView(nombreModulo: $nombreModulo)) {
+                        Image(systemName: "calendar").resizable().frame(width: 30, height: 30).padding() // Icono de calendario
+                        }
+                        
+                        Menu() {
+                            ForEach(NavigationItem.allCases) { item in
+                                Button(item.rawValue) {
+                                    selectedItem = item
+                                    
+                                }
+                            }
+                        }label:{Image(systemName: "ellipsis").resizable().scaledToFill().frame(width: 30)}
                 }
+            }.fullScreenCover(isPresented: $isShowingMarcarIngreso){
+                IngresoView()
+            }
+            .fullScreenCover(isPresented: $isShowingCuentas){
+                ClientesView()
             }
             
-            .fullScreenCover(item: $selectedItem) { item in
-                switch item {
-                case .usuarios:
-                    ListView(username: username, password: password)
-                    
-                case .ordenesServicios:
-                    EmptyView()
-                    
+            //redirigir a determinada vista segun el caso q seleccione el usuario
+            .fullScreenCover(item: $selectedItem) { vista in
+                switch vista {
                 case .equipos:
-                    EmptyView()
-                    
-                case .personas:
-                    EmptyView()
-                    
-                case .permisos:
-                    EmptyView()
-                    
-                case .stockInsumos:
-                    EmptyView()
+                    EquiposView()
+                case .ordenesServicios:
+                    OrdenesServicioView()
+              /*  case .emisionRecibos:
+                    ReciboSueldosView()*/
                 }
-            }
-            
-            .fullScreenCover(isPresented:$isShowingRecibosView) {
-                ReciboSueldosView()
-            }
-            .fullScreenCover(isPresented: $isShowingCuentasView){
-                CuentasView()
             }
         }
     }
