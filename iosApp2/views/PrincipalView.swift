@@ -5,4 +5,4 @@
 //  Created by federico on 06/03/2025.
 //
 
-import Foundation
+import SwiftUI

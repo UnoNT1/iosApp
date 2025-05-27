@@ -7,57 +7,128 @@
 
 import SwiftUI
 
+enum NavigationItem: String, CaseIterable, Identifiable {
+    case usuarios = "Usuarios"
+    case ordenesServicios = "Ordenes de Servicio"
+    case equipos = "Equipos"
+    case personas = "Personas"
+    case permisos = "Permisos"
+    case stockInsumos = "Stock Insumos"
+    
+    var id: String { self.rawValue }
+}
+
+
 // Vista de bienvenida, una vez que las credenciales del usuario son validas
 struct WelcomeView: View {
     var username: String
     var password: String
+    @EnvironmentObject var configData: ConfigData
+    @State private var mostrarTextField = false
+    @State private var textoBusqueda = ""
+    @Environment(\.dismiss) var dismiss
+    @State private var isShowingRecibosView = false
+    @State private var isShowingCuentasView = false
     
-    enum NavigationItem: String, CaseIterable, Identifiable {
-        case usuarios = "Usuarios"
-        //case pagos = "Pagos"
-        //case empresas = "Empresas"
-        
-        var id: String { self.rawValue }
-    }
     
+    //variable donde se almacenara el item que seleccione el usuario
     @State private var selectedItem: NavigationItem? = nil
+    @State var nombreModulo: String = "MODULO GENERAL"
     
     var body: some View {
-        NavigationStack {
+        NavigationView{
             VStack {
-                Text("Hola, \(username)!")
-                    .font(.largeTitle)
-                    .padding()
+                Text("\(configData.usuarioConfig)").padding()
+                ReclamosView()
+                Spacer()
+                HStack{
+                    Button {
+                        dismiss() // Cierra la vista
+                    } label: {
+                        Image("atras_64")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 48, height: 48)
+                    }
+                    //va hacia la vista ReciboSueldos
+                    Button(action:{
+                        isShowingRecibosView = true
+                    }){
+                        Image("re_48")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 48, height: 48)
+                    }
+                    Button(action:{
+                        isShowingCuentasView = true
+                    }){
+                        Image("vi_48")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 48, height: 48)
+                    }
+                }
                 
-                Text("Bienvenido a la aplicación.")
-                    .font(.title2)
-                    .foregroundColor(.gray)
             }
-            .navigationTitle("Bienvenido")
+            //menu tres puntitos
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Menu("Opciones") {
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    // boton para activar el buscador
+                    Button(action:{
+                        mostrarTextField.toggle()
+                    }){
+                        Image("doc")
+                    }
+                    
+                    if mostrarTextField {
+                        TextField("Buscar...", text: $textoBusqueda)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding()
+                    }
+                    NavigationLink(destination: AgendaView(nombreModulo: $nombreModulo)) {
+                        Image(systemName: "calendar").resizable().frame(width: 30, height: 30).padding()
+                    }
+                    
+                    Menu() {
                         ForEach(NavigationItem.allCases) { item in
                             Button(item.rawValue) {
                                 selectedItem = item
-                            
+                                
                             }
                         }
-                    }
+                    }label:{Image(systemName: "ellipsis").resizable().scaledToFill().frame(width: 30)}
                 }
             }
-            .navigationDestination(item: $selectedItem) { item in
+            
+            .fullScreenCover(item: $selectedItem) { item in
                 switch item {
                 case .usuarios:
                     ListView(username: username, password: password)
                     
-              //  case .pagos:
-                //    EmptyView()
+                case .ordenesServicios:
+                    EmptyView()
                     
-                //case .empresas:
-                  //  EmptyView()
+                case .equipos:
+                    EmptyView()
+                    
+                case .personas:
+                    EmptyView()
+                    
+                case .permisos:
+                    EmptyView()
+                    
+                case .stockInsumos:
+                    EmptyView()
                 }
             }
-        }.navigationBarBackButtonHidden(true)
+            
+            .fullScreenCover(isPresented:$isShowingRecibosView) {
+                ReciboSueldosView()
+            }
+            .fullScreenCover(isPresented: $isShowingCuentasView){
+                CuentasView()
+            }
+        }
     }
 }
+

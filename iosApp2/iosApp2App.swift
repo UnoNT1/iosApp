@@ -11,9 +11,13 @@ let urlApi = "http://192.168.100.11/"
 
 @main
  struct iosApp2App: App {
+     @StateObject var configData = ConfigData()
+     @StateObject var fechasConsultas = FechasConsultas()
      var body: some Scene {
-            WindowGroup {
-            LoginView()
+         WindowGroup {
+             LoginView()
+                 .environmentObject(configData)
+             .environmentObject(fechasConsultas)
          }
      }
  }

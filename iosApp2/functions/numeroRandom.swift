@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+
+func generarNumeroAleatorio()->Int {
+       let rango8Digitos = 10000000...99999999
+       var numeroRandomGenerado = Int.random(in: rango8Digitos)
+    return numeroRandomGenerado
+   }

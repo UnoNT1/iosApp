@@ -9,47 +9,75 @@ import SwiftUI
 
 struct LoginView: View {
     // variables de estado para el nombre de usuario y la contraseña
-    @State public var username: String = ""
-    @State public var password: String = ""
+    @State public var username: String = "dato"
+    @State public var password: String = "200492"
     
     // Variable de estado para controlar la navegación
     @State private var isLoggedIn: Bool = false
+    
+    @State private var isShowingConfig: Bool = false
+    
+    @EnvironmentObject var configData: ConfigData
     
     // Variables de estado para mostrar alertas
     @State private var showAlert: Bool = false
     @State private var alertMessage: String = ""
     
+    @State private var mostrarWelcomeVendedor = false
+    
     var body: some View {
         NavigationView {
-            VStack(spacing: 20) {
-                // campo de texto para el nombre de usuario
-                TextField("Nombre de usuario", text: $username)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
-                
-                // campo de texto para la contrasena
-                SecureField("Contraseña", text: $password)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
-                
-                // Botón para verificar las credenciales
-                Button(action: {
-                    verifyCredentials()
-                }) {
-                    Text("Iniciar Sesion")
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                }
-                
-                // Navegación a la pantalla de bienvenida
-                NavigationLink(destination: WelcomeView(username: username, password: password), isActive: $isLoggedIn) {
-                    EmptyView() // El NavigationLink no muestra contenido visible
-                }
+            ZStack{
+                Image("aa").resizable().scaledToFill().edgesIgnoringSafeArea(.all)
+                VStack{
+                    Image("bola3d").resizable().scaledToFit().frame(width: 100, height: 100)
+                    Text("Dato 6.0").font(.title2).padding(.bottom,30)
+                    // campo de texto para el nombre de usuario
+                    Text("Usuario")
+                    TextField("Nombre de usuario", text: $username)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .frame(maxWidth: 300, alignment: .leading)
+                    
+                    // campo de texto para la contrasena
+                    Text("contrasena")
+                    SecureField("Contraseña", text: $password)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .frame(maxWidth: 300, alignment: .leading)
+                    // Botón para verificar las credenciales
+                    Button(action: {
+                        verifyCredentials()
+                    }) {
+                        Image("ingresar1")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 150, height: 150)
+                    }
+                    
+                    Button(action:{isShowingConfig = true}, label: {
+                        Image("cfg_48").resizable().scaledToFit().frame(width: 48, height: 48)
+                    })
+                    
+                }.padding()
             }
-            .padding()
-            .navigationTitle("Dato")
+            //navega hacia la vista config
+            .fullScreenCover(isPresented: $isShowingConfig) {
+                ConfigView()
+            }
+            
+            // Navegacion a la pantalla Vendedor
+            .fullScreenCover(isPresented: $mostrarWelcomeVendedor) {
+                WelcomeVendedorView()
+                    .interactiveDismissDisabled(true)
+            }
+            
+            // Navegación a la pantalla de bienvenida OS
+            .fullScreenCover(isPresented: $isLoggedIn){
+                WelcomeView(username: username, password: password)
+                    .interactiveDismissDisabled(true)
+            }
+            
+            
+        }
             .alert(isPresented: $showAlert) {
                 Alert(
                     title: Text("Error"),
@@ -58,7 +86,6 @@ struct LoginView: View {
                 )
             }
         }
-    }
     
     // Función para verificar las credenciales con la API
     func verifyCredentials() {
@@ -106,7 +133,11 @@ struct LoginView: View {
                     if let _ = json["usuario"] as? String {
                         // Credenciales correctas: activar la navegación
                         DispatchQueue.main.async {
+                            if configData.menuValue == "OS"{
                             isLoggedIn = true
+                            }else{
+                                mostrarWelcomeVendedor = true
+                            }
                         }
                     } else if let message = json["message"] as? String {
                         DispatchQueue.main.async {
