@@ -23,13 +23,13 @@ struct Reclamos: Codable, Identifiable{
     
 }
 
-func obtenerReclamos(desdeFecha: String, hastaFecha: String, completion: @escaping ([Reclamos]?, Error?) -> Void) {
+func obtenerReclamos(empresa: String, desdeFecha: String, hastaFecha: String, completion: @escaping ([Reclamos]?, Error?) -> Void) {
     // 1. Construcción de la URL
     // Codifica los componentes de la URL para evitar problemas con caracteres especiales (ej. espacios)
     var components = URLComponents(string: "https://www.unont.com.ar/yavoy/sistemas/dato5/android/principal.php")
     components?.queryItems = [
-        URLQueryItem(name: "cuenta", value: "0"),
-        URLQueryItem(name: "empresa", value: "demo"),
+        URLQueryItem(name: "cuenta", value: empresa),
+        URLQueryItem(name: "empresa", value: empresa),
         URLQueryItem(name: "palabra", value: "0"),
         URLQueryItem(name: "estado", value: "0"),
         URLQueryItem(name: "w_desde", value: desdeFecha),

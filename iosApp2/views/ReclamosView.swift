@@ -13,6 +13,7 @@ struct ReclamosView: View {
     @State private var error: Error?
     @State private var isLoading = true
     @EnvironmentObject var fechasConsultas: FechasConsultas
+    @EnvironmentObject var configData: ConfigData
 
     var body: some View {
         VStack {
@@ -74,7 +75,7 @@ struct ReclamosView: View {
 
     func cargarReclamos() {
         isLoading = true
-        obtenerReclamos(desdeFecha: fechasConsultas.desdeFechaString, hastaFecha: fechasConsultas.hastaFechaString) { reclamos, error in
+        obtenerReclamos(empresa: configData.empresaConfig ,desdeFecha: fechasConsultas.desdeFechaString, hastaFecha: fechasConsultas.hastaFechaString) { reclamos, error in
             DispatchQueue.main.async {
                 isLoading = false
                 if let reclamos = reclamos {

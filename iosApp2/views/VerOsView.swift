@@ -17,7 +17,12 @@ struct VerOsView: View {
     @Environment(\.dismiss) var dismiss
     // Closure para notificar a la vista anterior que se borró la OS
         var onOSBorrada: (() -> Void)?
-    
+    // Nuevo estado para controlar la visibilidad del SelectorClienteView
+    @State private var showingClientSelector = false
+    //Nuevo estado para guardar el cliente seleccionado
+    @State private var selectedClient: Clientes? // Asegúrate de que 'Cliente' esté definido
+    // *** ¡Nueva variable de estado para el texto del titular que se muestra en la UI! ***
+       @State private var uiTitularText: String = "Sin titular"
     var body: some View {
         VStack(alignment: .leading) {
             HStack{
@@ -29,8 +34,13 @@ struct VerOsView: View {
             if let detalle = verOs {
                 VStack{
                     HStack{
-                        Text("Títular: \(detalle.pTit ?? "")").padding().border(Color.orange).cornerRadius(8)
+                        Text("Títular:\(uiTitularText) ").padding().border(Color.orange).cornerRadius(8)
                         Text("Cuenta: \(detalle.pCta ?? "N/A")").padding().border(Color.orange).cornerRadius(8)
+                        Button(action:{
+                            showingClientSelector = true
+                        }){
+                            Image(systemName: "person")
+                        }
                     }
                     HStack{
                         Text("Tipo \(detalle.pSer ?? "N/A")").padding().background(Color.white)
@@ -97,22 +107,41 @@ struct VerOsView: View {
                 .frame(maxWidth: .infinity)
                 .background(Image("fondoc0").resizable().scaledToFill().edgesIgnoringSafeArea(.all))
                 .onAppear {
-                    cargarDetallesOS()
+                    cargarDetallesOS{loadedOs in // Necesitamos un completion para cargarDetallesOS
+                                      self.verOs = loadedOs
+                                      self.uiTitularText = loadedOs?.pTit ?? "Sin Titular" // Inicializa la variable de UI
+                                  }
+                }
+                .sheet(isPresented: $showingClientSelector){
+                    SelectorClienteView (onClienteSeleccionado: { cliente in
+                        selectedClient = cliente
+                        showingClientSelector = false
+                    })
                 }
         }
         
-        func cargarDetallesOS() {
-            print("Cargando detalles para la OS número (en VerOsView): \(numeroOS ?? "nulo")")
-            obtenerDetallesVerOs(registro: numeroOS ?? "N/A", empresa: configData.empresaConfig) { result in
-                DispatchQueue.main.async {
-                    switch result {
-                    case .success(let detalles):
-                        verOs = detalles.first // Tomamos el primer (y probablemente único) resultado
-                    case .failure(let err):
-                        error = err
-                        print("Error al obtener detalles de la OS \(numeroOS): \(err.localizedDescription)")
+    func cargarDetallesOS(completion: @escaping (VerOs?) -> Void) {
+        print("Cargando detalles para la OS número (en VerOsView): \(numeroOS ?? "nulo")")
+        obtenerDetallesVerOs(registro: numeroOS ?? "N/A", empresa: configData.empresaConfig) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let detalles):
+                    self.verOs = detalles.first // Asignamos el primer detalle a verOs
+                    // --- ¡Aquí está el cambio clave! ---
+                    // Una vez que verOs tiene datos, inicializa uiTitularText
+                    if let loadedOs = self.verOs {
+                        self.uiTitularText = loadedOs.pTit ?? "Sin Titular"
+                    } else {
+                        self.uiTitularText = "Titular no disponible" // En caso de que detalles.first sea nil
                     }
+                    // --- Fin del cambio ---
+                    completion(self.verOs) // Pasamos el VerOs cargado al completion handler
+                case .failure(let err):
+                    self.error = err
+                    print("Error al obtener detalles de la OS \(numeroOS): \(err.localizedDescription)")
+                    completion(nil) // En caso de error, pasamos nil al completion handler
                 }
             }
         }
     }
+}

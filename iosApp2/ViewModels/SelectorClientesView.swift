@@ -17,7 +17,7 @@ struct SelectorClienteView: View {
     @State private var isLoading = true
     @State private var error: Error?
     @State private var filtro: String = ""
-    let onClienteSeleccionado: (Clientes) -> Void
+    var onClienteSeleccionado: (Clientes) -> Void
 
     var clientesFiltrados: [Clientes] {
         if filtro.isEmpty {

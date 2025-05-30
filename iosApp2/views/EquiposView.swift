@@ -16,7 +16,7 @@ import SwiftUI
 struct EquiposView:View {
     @StateObject private var viewModel = EquiposViewModel() // Instancia del ViewModel
     // Tus parámetros de búsqueda
-       @State private var empresaParam: String = "demo"
+    @EnvironmentObject var configData: ConfigData
        // estadoParam ahora se inicializa desde ButtonState.blanco
        @State private var estadoParam: String = String(ButtonState.blanco.rawValue) // <-- IMPORTANTE: inicializar con el valor en string
        @State private var palabraParam: String = ""
@@ -59,7 +59,7 @@ struct EquiposView:View {
                    
                    Button("Buscar Equipos") {
                        // Cuando presionas este botón, usará el valor actual de estadoParam
-                       viewModel.cargarEquipos(empresa: empresaParam, estado: estadoParam, palabra: palabraParam)
+                       viewModel.cargarEquipos(empresa: configData.empresaConfig, estado: estadoParam, palabra: palabraParam)
                    }
                    .padding()
                    
@@ -93,6 +93,9 @@ struct EquiposView:View {
                                }
                            }
                            .padding(.vertical, 4)
+                           .background(cellBackgroundColor(forEopStatus: equipo.zzEop))
+                           .cornerRadius(8) // Opcional: redondear también el fondo de la celda
+                           .padding(.horizontal, 4) // Pequeño padding para que se vea el redondeo en la lista
                        }
                        .listStyle(.plain)
                    }
@@ -100,7 +103,26 @@ struct EquiposView:View {
                }
                .onAppear {
                    // Carga inicial al aparecer la vista, usando el estado inicial del botón
-                   viewModel.cargarEquipos(empresa: empresaParam, estado: estadoParam, palabra: palabraParam)
+                   viewModel.cargarEquipos(empresa: configData.empresaConfig, estado: estadoParam, palabra: palabraParam)
                }
        }
    }
+
+
+
+// --- Función para determinar el color de fondo de la celda ---
+   func cellBackgroundColor(forEopStatus eop: String?) -> Color {
+       switch eop {
+       case "1": // Estado 1: Verde (menos opaco)
+           return Color.green.opacity(0.4) // Un verde más claro
+       case "2": // Estado 2: Amarillo
+           return Color.yellow.opacity(0.4) // Un naranja más claro
+       case "3": // Estado 3: Rojo
+           return Color.red.opacity(0.4) // Un rojo más claro
+       case "0": // Estado 0: Blanco (o gris claro para que se note el cambio)
+           return Color.gray.opacity(0.1) // Un gris muy claro
+       default: // Cualquier otro caso o "N/D"
+           return Color.clear // Sin fondo si no hay un estado definido
+       }
+   }
+   // --- Fin de la función de color ---

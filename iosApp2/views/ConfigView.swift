@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 //clase para q estas variables sean accesibles para todas las vistas
 class ConfigData: ObservableObject {

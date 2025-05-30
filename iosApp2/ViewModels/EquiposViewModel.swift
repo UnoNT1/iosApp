@@ -12,11 +12,13 @@ class EquiposViewModel: ObservableObject {
     @Published var equipos: [Equipos] = []
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
+    @EnvironmentObject var configData: ConfigData
 
     // La lógica de red ahora reside directamente aquí
     func cargarEquipos(empresa: String, estado: String, palabra: String) {
         isLoading = true
         errorMessage = nil // Limpia cualquier error anterior
+        
 
         // 1. Construcción de la URL (misma lógica que antes)
         var components = URLComponents(string: "https://www.unont.com.ar/yavoy/sistemas/dato5/android/zz.php")

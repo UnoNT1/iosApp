@@ -19,7 +19,7 @@ struct TmpOS: Codable {
 }
 
 func obtenerDetallesTMPOS(nroOS: String, completion: @escaping (Result<[TmpOS], Error>) -> Void) {
-    guard let url = URL(string: "https://www.unont.com.ar/yavoy/sistemas/dato5/android/tmp_os.php?nroos=\(nroOS)") else {
+    guard let url = URL(string: "https://www.unont.com.ar/yavoy/sistemas/dato5/android/tmp_os.php?nroos=\(nroOS)&accion=2") else {
         print("Error: URL inválida.")
         completion(.failure(NSError(domain: "AppError", code: -1, userInfo: [NSLocalizedDescriptionKey: "URL inválida"])))
         return
