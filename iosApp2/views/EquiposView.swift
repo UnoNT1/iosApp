@@ -28,7 +28,7 @@ struct EquiposView:View {
                    HStack{
                        BackButton()
                        Text("Lista Equipos").padding(.horizontal).font(.title)
-                   }.padding()
+                   }.frame(maxWidth: .infinity).background(Color.blue).foregroundStyle(.white)
                    
                    // *** ¡Aquí va el botón de estado cambiante! ***
                    Button(action: {
@@ -66,12 +66,14 @@ struct EquiposView:View {
                    // Indicador de carga
                    if viewModel.isLoading {
                        ProgressView("Cargando equipos...")
+                       Spacer()
                    }
                    // Mensaje de error
                    else if let errorMessage = viewModel.errorMessage {
-                       Text("Error: \(errorMessage)")
+                       Text("Error: Valor no encontrado")
                            .foregroundColor(.red)
                            .padding()
+                       Spacer()
                    }
                    // Lista de equipos
                    else {

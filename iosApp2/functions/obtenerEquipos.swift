@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct Equipos: Codable, Identifiable {
+struct Equipos:Identifiable, Decodable, Hashable {
     // Para Identifiable. Usamos zzUnico si está disponible, si no, generamos un UUID.
     // Asumimos que zzUnico es único para cada registro.
     let id: UUID = UUID()

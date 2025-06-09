@@ -36,7 +36,7 @@ struct OrdenesServicioView: View {
                     Image("nuevo_64").resizable().scaledToFill().frame(width: 50, height: 50)
                     
                 }
-            }
+            }.frame(maxWidth: .infinity).background(Color.blue).foregroundStyle(Color.white)
             HStack {
                 HStack{
                     Text("Estado")
@@ -71,8 +71,9 @@ struct OrdenesServicioView: View {
                 Text("No se encontraron órdenes de servicio con los criterios seleccionados.")
                     .foregroundColor(.gray)
                     .padding()
+                Spacer()
             }else{
-                Text("Cant: \(os.count)").padding().background(Color.blue).foregroundStyle(Color.white).cornerRadius(8)
+                Text("Cant: \(os.count)").padding(5).background(Color.blue).foregroundStyle(Color.white).cornerRadius(8)
                 List(os, id: \.osNro) { orden in
                     Button(action: {
                         selectedOSNumero = orden.osNro ?? ""
@@ -81,25 +82,39 @@ struct OrdenesServicioView: View {
                     }) {
                         
                         VStack(alignment: .leading) {
-                            HStack{
+                            HStack(alignment: .top){
                                 Text("\(orden.osNro ?? "N/A")").background(Color.blue)
                                 Text("\(orden.osFecha ?? "N/A")").foregroundStyle(.gray)
+                                // Aquí es donde agregaremos el círculo
+                                HStack() {
+                                    Circle()
+                                        .fill(orden.osEst == "9" ? Color.red :
+                                                orden.osEst == "2" ? Color.green :
+                                                orden.osEst == "1" ? Color.white :
+                                                Color.clear) // Un color transparente por defecto si no coincide
+                                        .frame(width: 10, height: 10) // Tamaño del círculo
+                                        .overlay(
+                                            Circle()
+                                                .stroke(orden.osEst == "1" ? Color.gray : Color.clear, lineWidth: 1) // Borde gris para el círculo blanco
+                                        )
+                                }
                             }
+                            .frame(maxWidth: .infinity, alignment: .leading)
                             HStack(alignment: .top){
                                 Text("\(orden.osTitular ?? "N/A")").font(.title3).foregroundStyle(.blue)
-                            }
+                            }.frame(maxWidth: .infinity, alignment: .leading) // Asegura que este HStack ocupe todo el ancho y alinee a la izquierda
                             HStack(alignment: .top){
                                 Text("\(orden.osNombre ?? "N/A")").foregroundStyle(.red).font(.footnote)
-                            }
+                            }.frame(maxWidth: .infinity, alignment: .leading) // Asegura que este HStack ocupe todo el ancho y alinee a la izquierda
                             HStack(alignment: .top){
                                 Text("\(orden.osMotivo ?? "N/A")").font(.title3)
-                            }
+                            }.frame(maxWidth: .infinity, alignment: .leading) // Asegura que este HStack ocupe todo el ancho y alinee a la izquierda
                         }.frame(maxWidth: .infinity)
                             .background(
                                 LinearGradient(gradient: Gradient(colors: [Color(.systemGray6), Color(.cyan).opacity(0.3)]), startPoint: .bottom, endPoint: .top)
                             )
                             .cornerRadius(8)
-                            .padding()
+                            .padding(.bottom, 10)
                     }.buttonStyle(PlainButtonStyle()) // Para que la celda de la lista sea interactiva
                 }.listStyle(.plain)
             }

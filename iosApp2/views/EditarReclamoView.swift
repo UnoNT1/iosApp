@@ -40,13 +40,17 @@ struct DetalleReclamo: Codable, Identifiable {
 struct EditarReclamoView: View {
     let reclamo: Reclamos
     @State var detalles: DetalleReclamo?
+    // Estado para controlar si la tarea está marcada (true) o no (false)
+    @State private var reclamoPendiente: Bool = true
+    @State private var isShowingVerOs: Bool = false
+    @State private var nroReclamo: String? = ""
 
     var body: some View {
         VStack(alignment: .leading) {
             HStack{
                 Text("\(detalles?.pUsu ?? "")")
-                  Text("\(detalles?.pCel ?? "")").padding().foregroundStyle(Color.red).cornerRadius(10)
-            }.padding(.bottom)
+                Text("\(detalles?.pCel ?? "")").padding(.horizontal).foregroundStyle(Color.red).border(.gray, width: 2).cornerRadius(10)
+            }.padding(.bottom, 10)
             HStack{
                 Text("Persona").foregroundStyle(Color.blue)
                 VStack{ Text(detalles?.pPer ?? "")
@@ -88,18 +92,54 @@ struct EditarReclamoView: View {
                 }
             }.padding(.bottom)
             HStack{
-                Text("\(detalles?.pEst ?? "")").foregroundStyle(Color.blue)
+                Text("Tarea pendiente").foregroundStyle(Color.blue)
+                // 3. El Toggle personalizado
+                Toggle(isOn: $reclamoPendiente) {
+                    // El 'label' del Toggle está vacío porque el texto ya lo pusimos al lado.
+                    // Podrías poner aquí un Text("") o dejarlo así.
+                }
+                .toggleStyle(.customCheckbox) // <-- ¡Este es el truco para que parezca una casilla!
                 Spacer()
-                Text("Hora \(detalles?.pFec ?? "")").padding().border(Color.black, width: 2).cornerRadius(10)
+                Text("Hora")
+                Text("\(detalles?.pFec ?? "") \(detalles?.pHor ?? "")").padding().border(Color.black, width: 2).cornerRadius(10)
+            }.onTapGesture {
+                reclamoPendiente.toggle()
             }
+            
             Text("Motivo").foregroundStyle(Color.blue)
-            Text("\(detalles?.pMot ?? "")").font(.title3).padding().border(Color.red, width: 2)
+            Text("\(detalles?.pMot ?? "")").font(.title3).padding(.vertical, 30).padding(.horizontal, 3).border(Color.red, width: 3)
             Spacer()
+            
+            HStack(alignment: .center){
+                Button(action:{
+                    
+                }){
+                    VStack{
+                        Image("yavoy").resizable().scaledToFill().frame(width: 40, height: 40)
+                        Text("Ya Voy").font(.footnote).foregroundStyle(.orange)
+                    }.padding(.vertical, 10).padding(.horizontal, 20).background(.orange.opacity(0.5)).border(.orange, width: 2).cornerRadius(4)
+                }.padding(.horizontal)
+                
+                //boton para editar el reclamo
+                Button(action:{
+                    isShowingVerOs = true
+                }){
+                    VStack{
+                        Image("os_48").resizable().scaledToFill().frame(width: 40, height: 40)
+                        Text("Editar").font(.footnote).foregroundStyle(.blue)
+                    }.padding(.vertical, 10).padding(.horizontal, 20).background(.blue.opacity(0.5)).border(.orange, width: 2).cornerRadius(4)
+                }.padding(.horizontal)
+            }.frame(maxWidth: .infinity)
+        }.frame(maxWidth: .infinity)
+        .fullScreenCover(isPresented: $isShowingVerOs){
+            VerOsView(numeroOS: $nroReclamo )
         }
+        
         .onAppear(){
             detalleReclamo(registro: reclamo.pHora ?? "0"){ detallesArray, error in
                 if let detallesArray = detallesArray, let detalle = detallesArray.first {
                     self.detalles = detalle // Asignar el primer elemento del array
+                    self.nroReclamo = detalle.pReg
                 } else if let error = error {
                     print("Error al cargar detalles: \(error)")
                 }
@@ -181,4 +221,35 @@ func detalleReclamo(registro: String, completion: @escaping ([DetalleReclamo]?, 
             }
         }
     }.resume()
+}
+
+
+//casilla para indicar si es tarea pendiente o no
+struct CheckboxToggleStyle: ToggleStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        Button {
+            configuration.isOn.toggle() // Toggles the state
+        } label: {
+            HStack {
+                // The label (if any) provided to the Toggle
+                // In your case, you're providing an empty label, which is fine.
+                configuration.label
+                
+                // The visual representation of the checkbox
+                Image(systemName: configuration.isOn ? "checkmark.square.fill" : "square")
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .foregroundColor(configuration.isOn ? .accentColor : .gray)
+            }
+        }
+        // Important: Use .buttonStyle(PlainButtonStyle()) to remove default button styling
+        // and allow the image to be the primary visual.
+        .buttonStyle(PlainButtonStyle())
+    }
+}
+
+extension ToggleStyle where Self == CheckboxToggleStyle {
+    static var customCheckbox: CheckboxToggleStyle {
+        CheckboxToggleStyle()
+    }
 }

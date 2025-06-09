@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-let urlApi = "http://192.168.100.11/"
+let urlApi = "http://192.168.1.31/"
 
 @main
  struct iosApp2App: App {

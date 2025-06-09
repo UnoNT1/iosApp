@@ -7,143 +7,142 @@
 
 import Foundation
 import SwiftUI
+import PhotosUI
+import UIKit
 
 struct UploadPhotoView: View {
-    @Environment(\.dismiss) var dismiss
     @EnvironmentObject var configData: ConfigData
-    @StateObject private var viewModel = PhotoUploaderViewModel()
+    @State private var selectedUIImage: UIImage? // La imagen seleccionada/tomada
+        @State private var showingImagePicker = false
+        @State private var sourceType: UIImagePickerController.SourceType = .photoLibrary
+        @State private var showingAlert = false
+        @State private var alertTitle: String = ""
+        @State private var alertMessage: String = ""
 
-    @State private var showingImagePicker = false
-    @State private var sourceType: UIImagePickerController.SourceType = .photoLibrary
+    // Nuevo estado para controlar la ActionSheet
+       @State private var showingSourceSelectionActionSheet = false
 
-    @State private var operacion: String
-    @State private var baseNombreFoto: String
-    @State private var originalImageFileName: String?
+       // Parámetros para la API
+       @State private var operacion: String = "2025"
+       @State private var nombre: String = ""
+       @State private var detalle: String = ""
+       @State private var tipo: String = ""
+        let tipoIma: String = ""
 
-    private let sufijoNombreFotoAPI = "_O"
+       var body: some View {
+           NavigationView {
+               Form {
+                   Section("Datos de la Imagen") {
+                       if let uiImage = selectedUIImage {
+                           Image(uiImage: uiImage)
+                               .resizable()
+                               .scaledToFit()
+                               .frame(maxWidth: .infinity, maxHeight: 200)
+                               .cornerRadius(10)
+                               .padding(.vertical)
+                       } else {
+                           Text("Selecciona una imagen")
+                               .foregroundColor(.gray)
+                               .frame(maxWidth: .infinity, maxHeight: 150)
+                               .background(Color.gray.opacity(0.1))
+                               .cornerRadius(10)
+                               .padding(.vertical)
+                       }
 
-    @State private var detalleFoto: String = "Foto de prueba"
-    @State private var tipoFoto: String = ""
-    @State private var empresaId: String = "1"
+                       Button("Seleccionar Imagen") {
+                           // Activa el estado para mostrar la ActionSheet de SwiftUI
+                           showingSourceSelectionActionSheet = true
+                       }
+                   }
 
-    // CAMBIO 2: El inicializador ahora recibe el 'operacion'
-    init(operacionDesdeNuevaOs: String) {
-        // Asignamos el valor recibido al @State operacion
-        _operacion = State(initialValue: operacionDesdeNuevaOs)
-        
-        // Ahora, baseNombreFoto se construye usando la operacion que llegó
-        _baseNombreFoto = State(initialValue: "\(operacionDesdeNuevaOs)\(sufijoNombreFotoAPI)")
-        
-        _originalImageFileName = State(initialValue: nil)
-        _viewModel = StateObject(wrappedValue: PhotoUploaderViewModel())
-        // El 'empresaId' puedes seguirlo inicializando aquí o dejar que el Binding de NuevaOsView lo pase.
-        // Si siempre es "1", puedes dejarlo así. Si viene de configData, es mejor pasarlo como binding.
-        // Por ahora, asumimos que 'empresa' en uploadPhoto viene de configData.empresaConfig
-    }
+                   Section("Parámetros de la API") {
+                       TextField("Operación", text: $operacion)
+                       TextField("Nombre", text: $nombre)
+                       TextField("Detalle", text: $detalle)
+                       TextField("Tipo", text: $tipo)
+                       TextField("Empresa", text: $configData.empresaConfig)
+                   }
 
-    var body: some View {
-        NavigationView { // <-- El .onChange debe ir aquí o en el VStack/Form
-            Form {
-                Section("Datos de la Foto") {
-                    Text("Operación: \(operacion)")
-                    Text("Nombre Base: \(baseNombreFoto)")
-                    Text("Nombre de Archivo Final: \(viewModel.finalImageName.isEmpty ? "Pendiente" : viewModel.finalImageName)")
+                   Section {
+                       Button("Subir Imagen a la API") {
+                           uploadImage()
+                       }
+                       .disabled(selectedUIImage == nil || nombre.isEmpty || detalle.isEmpty || tipo.isEmpty)
+                   }
+               }
+               .navigationTitle("Subir Imagen")
+               // Modificador para la hoja de selección de imagen (ImagePicker)
+               .sheet(isPresented: $showingImagePicker) {
+                   ImagePicker(selectedImage: $selectedUIImage, sourceType: sourceType)
+               }
+               // Modificador para la ActionSheet de selección de fuente (Galería/Cámara)
+               .actionSheet(isPresented: $showingSourceSelectionActionSheet) {
+                   ActionSheet(title: Text("Seleccionar Imagen"), message: nil, buttons: [
+                       .default(Text("Galería de Fotos")) {
+                           self.sourceType = .photoLibrary
+                           self.showingImagePicker = true
+                       },
+                       // Solo muestra la opción de cámara si está disponible
+                       .default(Text("Cámara")) {
+                           if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                               self.sourceType = .camera
+                               self.showingImagePicker = true
+                           } else {
+                               // Si la cámara no está disponible, puedes mostrar una alerta
+                               self.showAlert(title: "Error", message: "Cámara no disponible en este dispositivo.")
+                           }
+                       },
+                       .cancel()
+                   ])
+               }
+               .alert(isPresented: $showingAlert) {
+                   Alert(title: Text(alertTitle), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+               }
+           }
+       }
 
-                    HStack {
-                        Text("Tipo de Archivo Detectado:")
-                        Spacer()
-                        Text(viewModel.imageType.isEmpty ? "No Seleccionado" : viewModel.imageType.uppercased())
-                            .foregroundColor(.secondary)
-                    }
 
-                    TextField("Detalle", text: $detalleFoto)
-                    // ... (Aquí iría tu Picker si decides mantener un control manual para 'tipo' del PHP)
-                }
+       func uploadImage() {
+           guard let imageToUpload = selectedUIImage else {
+               self.showAlert(title: "Error", message: "Por favor, selecciona o toma una imagen primero.")
+               return
+           }
 
-                Section("Seleccionar/Tomar Foto") {
-                    HStack {
-                        Spacer()
-                        if let image = viewModel.selectedImage {
-                            Image(uiImage: image)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(maxWidth: 200, maxHeight: 200)
-                                .cornerRadius(10)
-                        } else {
-                            Image(systemName: "photo.on.rectangle.angled")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 100, height: 100)
-                                .foregroundColor(.gray)
-                        }
-                        Spacer()
-                    }
+           guard !nombre.isEmpty, !detalle.isEmpty, !tipo.isEmpty else {
+               self.showAlert(title: "Error", message: "Todos los campos de la API son obligatorios.")
+               return
+           }
 
-                    Button("Tomar Foto (Cámara)") {
-                        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-                            sourceType = .camera
-                            originalImageFileName = nil
-                            showingImagePicker = true
-                        } else {
-                            viewModel.uploadMessage = "La cámara no está disponible en este dispositivo o simulador."
-                            viewModel.showAlert = true
-                        }
-                    }
-                    .disabled(viewModel.isUploading)
+           uploadImageToAPI(
+               image: imageToUpload,
+               operacion: operacion,
+               nombre: nombre,
+               detalle: detalle,
+               tipo: tipoIma,
+               empresa: configData.empresaConfig
+           ) { result in
+               DispatchQueue.main.async {
+                   switch result {
+                   case .success(let data):
+                       self.showAlert(title: "Éxito", message: "Imagen subida correctamente.")
+                       if let responseString = String(data: data, encoding: .utf8) {
+                           print("Respuesta de la API: \(responseString)")
+                       }
+                       self.selectedUIImage = nil
+                       self.nombre = ""
+                       self.detalle = ""
 
-                    Button("Seleccionar de Galería") {
-                        sourceType = .photoLibrary
-                        showingImagePicker = true
-                    }
-                    .disabled(viewModel.isUploading)
-                }
+                   case .failure(let error):
+                       self.showAlert(title: "Error al subir", message: error.localizedDescription)
+                       print("Error al subir imagen: \(error.localizedDescription)")
+                   }
+               }
+           }
+       }
 
-                Section {
-                    Button(action: {
-                        // Actualizamos tipoFoto con la extensión antes de subir
-                        tipoFoto = viewModel.imageType
-
-                        viewModel.uploadPhoto(
-                            operacion: operacion,
-                            baseNombre: baseNombreFoto,
-                            detalle: detalleFoto,
-                            tipo: tipoFoto, // Este es el valor que se envía a PHP
-                            empresa: configData.empresaConfig,
-                            originalImageFileName: originalImageFileName
-                        )
-                    }) {
-                        if viewModel.isUploading {
-                            ProgressView("Subiendo...")
-                        } else {
-                            Text("Subir Foto")
-                        }
-                    }
-                    .disabled(viewModel.selectedImage == nil || viewModel.isUploading)
-                }
-            } // Fin de la Form
-            .navigationTitle("Subir Foto")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cerrar") {
-                        dismiss()
-                    }
-                }
-            }
-            .sheet(isPresented: $showingImagePicker) {
-                ImagePicker(sourceType: sourceType, selectedImage: $viewModel.selectedImage, originalImageFileName: $originalImageFileName)
-            }
-            .alert(isPresented: $viewModel.showAlert) {
-                Alert(
-                    title: Text(viewModel.uploadMessage ?? "Error"),
-                    dismissButton: .default(Text("OK")) {
-                        viewModel.showAlert = false
-                    }
-                )
-            }
-            // ¡¡ESTE ES EL CAMBIO!! El .onChange se aplica al NavigationView (o al contenido principal de la vista)
-            .onChange(of: viewModel.imageType) { newType in
-                self.tipoFoto = newType // Esto mantendrá tipoFoto sincronizado
-            }
-        } // Fin de la NavigationView
-    }
-}
+       func showAlert(title: String, message: String) {
+           self.alertTitle = title
+           self.alertMessage = message
+           self.showingAlert = true
+       }
+   }

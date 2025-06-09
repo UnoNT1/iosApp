@@ -48,6 +48,7 @@ struct SelectorClienteView: View {
                     List(clientesFiltrados) { cliente in
                         Button(action: {
                             onClienteSeleccionado(cliente)
+                            dismiss()
                         }) {
                             Text("\(cliente.ord_cl00) (\(cliente.cta_cl00))")
                         }

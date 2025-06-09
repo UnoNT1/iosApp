@@ -11,6 +11,7 @@
 		7A1BE6572D67FC110063DC9E /* MySQLDriver in Frameworks */ = {isa = PBXBuildFile; productRef = 7A1BE6562D67FC110063DC9E /* MySQLDriver */; };
 		7A22D0102DA46138004C2134 /* ReclamosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A22D00F2DA46138004C2134 /* ReclamosView.swift */; };
 		7A27F4EE2DC15F9300EAFB94 /* tareasOs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A27F4ED2DC15F9300EAFB94 /* tareasOs.swift */; };
+		7A3922B92DEA1F2600AA851D /* SelectorEstadoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A3922B82DEA1F2600AA851D /* SelectorEstadoView.swift */; };
 		7A3ED9102DA9A3C80085619D /* OrdenesServicioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A3ED90F2DA9A3C80085619D /* OrdenesServicioView.swift */; };
 		7A3ED9122DA9A3FE0085619D /* obtenerOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A3ED9112DA9A3FE0085619D /* obtenerOS.swift */; };
 		7A3FDCEA2D7B5AF9002858CE /* ReciboSueldosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A3FDCE92D7B5AF9002858CE /* ReciboSueldosView.swift */; };
@@ -24,9 +25,12 @@
 		7A50C7BA2DE63E5F00B4B20F /* obtenerEquipos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A50C7B92DE63E5F00B4B20F /* obtenerEquipos.swift */; };
 		7A50C7BC2DE63F4D00B4B20F /* EquiposViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A50C7BB2DE63F4D00B4B20F /* EquiposViewModel.swift */; };
 		7A50C7BE2DE6412300B4B20F /* ButtonState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A50C7BD2DE6412300B4B20F /* ButtonState.swift */; };
+		7A540CEA2DF0BA7000F61A8D /* PendientesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A540CE92DF0BA7000F61A8D /* PendientesView.swift */; };
+		7A540CEC2DF0BE0E00F61A8D /* DetalleAgendaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A540CEB2DF0BE0E00F61A8D /* DetalleAgendaView.swift */; };
 		7A61A9CE2D7A1527008B70C5 /* AgendaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A61A9CD2D7A1527008B70C5 /* AgendaView.swift */; };
 		7A61A9D02D7A210E008B70C5 /* obtenerReclamos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A61A9CF2D7A210E008B70C5 /* obtenerReclamos.swift */; };
-		7A61A9D22D7A299C008B70C5 /* PrincipalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A61A9D12D7A299C008B70C5 /* PrincipalView.swift */; };
+		7A8438482DF21673002060FE /* obtenerVisitasPendientes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8438472DF21673002060FE /* obtenerVisitasPendientes.swift */; };
+		7A84384A2DF21ADB002060FE /* PendientesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8438492DF21ADB002060FE /* PendientesViewModel.swift */; };
 		7A899F912DCE760F0041C6BE /* IngresoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A899F902DCE760F0041C6BE /* IngresoView.swift */; };
 		7A899F932DCE78A80041C6BE /* SelectorClientesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A899F922DCE78A80041C6BE /* SelectorClientesView.swift */; };
 		7A899F972DCE88E10041C6BE /* ListaEquiposView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A899F962DCE88E10041C6BE /* ListaEquiposView.swift */; };
@@ -55,6 +59,7 @@
 		7AC78BD72D946F9700537AD2 /* ClientesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC78BD62D946F9600537AD2 /* ClientesView.swift */; };
 		7AC78BD92D94704000537AD2 /* obtenerClientes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC78BD82D94704000537AD2 /* obtenerClientes.swift */; };
 		7AC78BDB2D947FE600537AD2 /* AltaClienteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC78BDA2D947FE600537AD2 /* AltaClienteView.swift */; };
+		7AD2FF522DEF724A00116E59 /* SelectorEquipos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD2FF512DEF724A00116E59 /* SelectorEquipos.swift */; };
 		7ADB7D472D6CFEFF008FC2A0 /* obtenerTodosUsuarios.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ADB7D462D6CFEFF008FC2A0 /* obtenerTodosUsuarios.swift */; };
 		7ADD41C02DC161D500E9E417 /* TmpOsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ADD41BF2DC161D500E9E417 /* TmpOsView.swift */; };
 		7AE360D82D95BD0D0045D85D /* CircularButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE360D72D95BD0D0045D85D /* CircularButton.swift */; };
@@ -68,6 +73,7 @@
 		7A01525E2D8B4FB500361E17 /* numeroRandom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = numeroRandom.swift; sourceTree = "<group>"; };
 		7A22D00F2DA46138004C2134 /* ReclamosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReclamosView.swift; sourceTree = "<group>"; };
 		7A27F4ED2DC15F9300EAFB94 /* tareasOs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tareasOs.swift; sourceTree = "<group>"; };
+		7A3922B82DEA1F2600AA851D /* SelectorEstadoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorEstadoView.swift; sourceTree = "<group>"; };
 		7A3ED90F2DA9A3C80085619D /* OrdenesServicioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdenesServicioView.swift; sourceTree = "<group>"; };
 		7A3ED9112DA9A3FE0085619D /* obtenerOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = obtenerOS.swift; sourceTree = "<group>"; };
 		7A3FDCE92D7B5AF9002858CE /* ReciboSueldosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReciboSueldosView.swift; sourceTree = "<group>"; };
@@ -81,9 +87,12 @@
 		7A50C7B92DE63E5F00B4B20F /* obtenerEquipos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = obtenerEquipos.swift; sourceTree = "<group>"; };
 		7A50C7BB2DE63F4D00B4B20F /* EquiposViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EquiposViewModel.swift; sourceTree = "<group>"; };
 		7A50C7BD2DE6412300B4B20F /* ButtonState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonState.swift; sourceTree = "<group>"; };
+		7A540CE92DF0BA7000F61A8D /* PendientesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendientesView.swift; sourceTree = "<group>"; };
+		7A540CEB2DF0BE0E00F61A8D /* DetalleAgendaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetalleAgendaView.swift; sourceTree = "<group>"; };
 		7A61A9CD2D7A1527008B70C5 /* AgendaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgendaView.swift; sourceTree = "<group>"; };
 		7A61A9CF2D7A210E008B70C5 /* obtenerReclamos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = obtenerReclamos.swift; sourceTree = "<group>"; };
-		7A61A9D12D7A299C008B70C5 /* PrincipalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrincipalView.swift; sourceTree = "<group>"; };
+		7A8438472DF21673002060FE /* obtenerVisitasPendientes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = obtenerVisitasPendientes.swift; sourceTree = "<group>"; };
+		7A8438492DF21ADB002060FE /* PendientesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendientesViewModel.swift; sourceTree = "<group>"; };
 		7A899F902DCE760F0041C6BE /* IngresoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngresoView.swift; sourceTree = "<group>"; };
 		7A899F922DCE78A80041C6BE /* SelectorClientesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorClientesView.swift; sourceTree = "<group>"; };
 		7A899F962DCE88E10041C6BE /* ListaEquiposView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListaEquiposView.swift; sourceTree = "<group>"; };
@@ -112,6 +121,7 @@
 		7AC78BD62D946F9600537AD2 /* ClientesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientesView.swift; sourceTree = "<group>"; };
 		7AC78BD82D94704000537AD2 /* obtenerClientes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = obtenerClientes.swift; sourceTree = "<group>"; };
 		7AC78BDA2D947FE600537AD2 /* AltaClienteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AltaClienteView.swift; sourceTree = "<group>"; };
+		7AD2FF512DEF724A00116E59 /* SelectorEquipos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorEquipos.swift; sourceTree = "<group>"; };
 		7ADB7D462D6CFEFF008FC2A0 /* obtenerTodosUsuarios.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = obtenerTodosUsuarios.swift; sourceTree = "<group>"; };
 		7ADD41BF2DC161D500E9E417 /* TmpOsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TmpOsView.swift; sourceTree = "<group>"; };
 		7ADE4A422DE4E0E100A50E94 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -140,9 +150,9 @@
 			children = (
 				7AC57B192DD274E7000A9707 /* ListaEquiposViewModel.swift */,
 				7AA441AC2DCD38A300B57B84 /* ClientesViewModel.swift */,
-				7A899F922DCE78A80041C6BE /* SelectorClientesView.swift */,
 				7AC707B72DE103BF00ACE427 /* PhotoUploaderViewModel.swift */,
 				7A50C7BB2DE63F4D00B4B20F /* EquiposViewModel.swift */,
+				7A8438492DF21ADB002060FE /* PendientesViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -154,7 +164,6 @@
 				7AACDB802D67FB2A002B7636 /* LoginView.swift */,
 				7AA758732D6F8261007B2625 /* WelcomeView.swift */,
 				7A61A9CD2D7A1527008B70C5 /* AgendaView.swift */,
-				7A61A9D12D7A299C008B70C5 /* PrincipalView.swift */,
 				7A3FDCE92D7B5AF9002858CE /* ReciboSueldosView.swift */,
 				7A3FDCED2D7B5FEB002858CE /* AltaReciboView.swift */,
 				7A3FDCEF2D7B844A002858CE /* SeleccionUsuarioView.swift */,
@@ -176,6 +185,8 @@
 				7A899F962DCE88E10041C6BE /* ListaEquiposView.swift */,
 				7AC707B92DE103E700ACE427 /* UploadPhotoView.swift */,
 				7A50C7B72DE63C5300B4B20F /* EquiposView.swift */,
+				7A540CE92DF0BA7000F61A8D /* PendientesView.swift */,
+				7A540CEB2DF0BE0E00F61A8D /* DetalleAgendaView.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -199,6 +210,7 @@
 		7AACDB7D2D67FB2A002B7636 /* iosApp2 */ = {
 			isa = PBXGroup;
 			children = (
+				7AD2FF502DEF721800116E59 /* Selectores(menus) */,
 				7ADE4A422DE4E0E100A50E94 /* Info.plist */,
 				7AA441AB2DCD388700B57B84 /* ViewModels */,
 				7AE360D62D95BCDD0045D85D /* components */,
@@ -217,6 +229,16 @@
 				7AACDB852D67FB2D002B7636 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		7AD2FF502DEF721800116E59 /* Selectores(menus) */ = {
+			isa = PBXGroup;
+			children = (
+				7A3922B82DEA1F2600AA851D /* SelectorEstadoView.swift */,
+				7A899F922DCE78A80041C6BE /* SelectorClientesView.swift */,
+				7AD2FF512DEF724A00116E59 /* SelectorEquipos.swift */,
+			);
+			path = "Selectores(menus)";
 			sourceTree = "<group>";
 		};
 		7ADB7D452D6CFED8008FC2A0 /* functions */ = {
@@ -238,6 +260,7 @@
 				7AA441A72DCD25BF00B57B84 /* borrarOS.swift */,
 				7AC707B52DE1038900ACE427 /* ImagePicker.swift */,
 				7A50C7B92DE63E5F00B4B20F /* obtenerEquipos.swift */,
+				7A8438472DF21673002060FE /* obtenerVisitasPendientes.swift */,
 			);
 			path = functions;
 			sourceTree = "<group>";
@@ -337,14 +360,19 @@
 				7AACDB812D67FB2A002B7636 /* LoginView.swift in Sources */,
 				7A3ED9122DA9A3FE0085619D /* obtenerOS.swift in Sources */,
 				7AA441AF2DCD3F6B00B57B84 /* HojaSeleccionarCliente.swift in Sources */,
+				7A84384A2DF21ADB002060FE /* PendientesViewModel.swift in Sources */,
 				7AA6B13E2DC13C5400475FDF /* verOs.swift in Sources */,
 				7A27F4EE2DC15F9300EAFB94 /* tareasOs.swift in Sources */,
 				7A3ED9102DA9A3C80085619D /* OrdenesServicioView.swift in Sources */,
 				7AE360DC2D95D3090045D85D /* ModificarClienteView.swift in Sources */,
+				7A540CEA2DF0BA7000F61A8D /* PendientesView.swift in Sources */,
+				7AD2FF522DEF724A00116E59 /* SelectorEquipos.swift in Sources */,
 				7ADB7D472D6CFEFF008FC2A0 /* obtenerTodosUsuarios.swift in Sources */,
 				7AC707B62DE1038900ACE427 /* ImagePicker.swift in Sources */,
 				7AC78BD72D946F9700537AD2 /* ClientesView.swift in Sources */,
 				7A61A9CE2D7A1527008B70C5 /* AgendaView.swift in Sources */,
+				7A8438482DF21673002060FE /* obtenerVisitasPendientes.swift in Sources */,
+				7A3922B92DEA1F2600AA851D /* SelectorEstadoView.swift in Sources */,
 				7AAF34382D832497001578EB /* ComprobantesImputadosView.swift in Sources */,
 				7AAF343A2D8331D2001578EB /* obtenerImputados.swift in Sources */,
 				7AE360D82D95BD0D0045D85D /* CircularButton.swift in Sources */,
@@ -352,12 +380,12 @@
 				7A3FDCEC2D7B5D55002858CE /* obtenerRecibos.swift in Sources */,
 				7AA441AA2DCD2FBE00B57B84 /* NuevaOS.swift in Sources */,
 				7A01525F2D8B4FB500361E17 /* numeroRandom.swift in Sources */,
-				7A61A9D22D7A299C008B70C5 /* PrincipalView.swift in Sources */,
 				7A899F912DCE760F0041C6BE /* IngresoView.swift in Sources */,
 				7AC57B1A2DD274E7000A9707 /* ListaEquiposViewModel.swift in Sources */,
 				7A899F972DCE88E10041C6BE /* ListaEquiposView.swift in Sources */,
 				7A50C7BE2DE6412300B4B20F /* ButtonState.swift in Sources */,
 				7AC707B82DE103BF00ACE427 /* PhotoUploaderViewModel.swift in Sources */,
+				7A540CEC2DF0BE0E00F61A8D /* DetalleAgendaView.swift in Sources */,
 				7A4A1D382D8C9B7900C848E6 /* WelcomeVendedorView.swift in Sources */,
 				7AE38B172DA589FD00747B96 /* convertirHora.swift in Sources */,
 				7AE360DA2D95C7050045D85D /* agregarCliente.swift in Sources */,
@@ -511,6 +539,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp2/Preview Content\"";
@@ -534,6 +563,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = unoNT.iosApp2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -545,6 +575,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp2/Preview Content\"";
@@ -568,6 +599,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = unoNT.iosApp2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

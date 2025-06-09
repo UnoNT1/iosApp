@@ -41,40 +41,38 @@ struct NuevaOS: View {
     var body: some View {
            NavigationView {
                Form {
-                   Section() {
-                       HStack{
-                           Text("Nueva OS \(numeroOperacionActual)").font(.title)
-                           Spacer()
-                           Button(action:{
-                               mostrarFotoView = true
-                           }){
-                               Image(systemName: "camera.circle.fill").resizable().scaledToFill().frame(width: 40, height: 40)
-                           }
+                   HStack {
+                       Text("Nueva OS \(numeroOperacionActual)").font(.title3)
+                       Spacer()
+                       Button(action:{
+                           mostrarFotoView = true
+                       }){
+                           Image(systemName: "camera.circle.fill").resizable().scaledToFill().frame(width: 40, height: 40)
                        }
-                       HStack {
-                           Text("Nombre:")
-                           TextField("Nombre del Receptor", text: $receptorNombre)
-                       }
-                       HStack {
-                           Text("Cuenta:")
-                           TextField("Número de Cuenta", text: $receptorCuenta)
-                               .keyboardType(.numberPad)
-                       }
-                       Button("Seleccionar Cliente") {
-                           mostrandoHojaClientes = true // Presenta la hoja al tocar el botón
-                       }
-                   }
-                   HStack{
-                       Text("Responsable")
-                       TextField("", text: $configData.usuarioConfig).disabled(/*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/).foregroundColor(.green)
-                       Text("Equipo")
-                       TextField("", text: $equipoSeleccionado)
                    }
                    
-
-                   Section(header: Text("Detalles de la Orden de Servicio")) {
+                   Section() {
+                       HStack {
+                           Text("Titular y Nro Cta").font(.footnote)
+                           TextField("", text: $receptorNombre).frame(maxWidth: .infinity).background(.gray.opacity(0.2)).cornerRadius(8).foregroundStyle(.blue)
+                           TextField("", text: $receptorCuenta).frame(width: 40).background(.gray.opacity(0.2)).cornerRadius(8).foregroundStyle(.blue)
+                               .keyboardType(.numberPad)
+                       }
+                       
+                       Button("Seleccionar Cliente") {
+                           mostrandoHojaClientes = true
+                       }
+                   HStack { // Este HStack está directamente en el Form, no en una Section
+                       Text("Responsable").font(.footnote)
+                       TextField("", text: $configData.usuarioConfig).disabled(true).foregroundColor(.green).background(.gray.opacity(0.2)).cornerRadius(8)
+                       Spacer()
+                       Text("Equipo").font(.footnote)
+                       TextField("", text: $equipoSeleccionado).background(.gray.opacity(0.2)).cornerRadius(8).foregroundStyle(.blue)
+                   }
+               }
+                   
+                   Section() {
                        HStack{
-                           // Menú desplegable para el Tipo de Servicio
                            Menu {
                                ForEach(tiposServicioPosibles, id: \.self) { tipo in
                                    Button(tipo) {
@@ -84,13 +82,11 @@ struct NuevaOS: View {
                            } label: {
                                HStack {
                                    Text("Tipo:")
-                                   Spacer()
                                    Text(tipoServicioSeleccionado)
                                        .foregroundColor(.secondary)
                                }
                            }
-                           
-                           // Menú desplegable para el Estado
+                           Spacer()
                            Menu {
                                ForEach(estadosPosibles, id: \.self) { estado in
                                    Button(estado) {
@@ -100,7 +96,6 @@ struct NuevaOS: View {
                            } label: {
                                HStack {
                                    Text("Estado:")
-                                   Spacer()
                                    Text(estadoSeleccionado)
                                        .foregroundColor(.secondary)
                                }
@@ -108,16 +103,24 @@ struct NuevaOS: View {
                        }
                        HStack{
                            Text("Motivo")
-                           // Picker para seleccionar la fecha (opcional, si quieres permitir cambiarla)
                            DatePicker("", selection: $fecha, displayedComponents: .date)
                        }
-                       TextField("Motivo",text: $motivo).foregroundStyle(Color.black) .textFieldStyle(RoundedBorderTextFieldStyle()).background(Color.green).padding()
+                       // Aquí tu TextField del motivo con el fondo verde
+                       ZStack {
+                           RoundedRectangle(cornerRadius: 8)
+                               .fill(Color.green)
+                           TextField("Motivo", text: $motivo)
+                               .padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
+                               .foregroundStyle(Color.black)
+                               .textFieldStyle(.plain)
+                       }
+                       .frame(height: 40)
                    }
-
+                   
                    Button("Guardar Nueva OS") {
                        dismiss()
                    }
-               }
+               }.listRowSpacing(0)
                .toolbar {
                    ToolbarItem(placement: .navigationBarLeading) {
                        Button("Cancelar") {
@@ -132,7 +135,7 @@ struct NuevaOS: View {
                    }
                }
                .sheet(isPresented: $mostrarFotoView ){
-                   UploadPhotoView(operacionDesdeNuevaOs: numeroOperacionActual)
+                   UploadPhotoView()
                }
                
                .onAppear {
