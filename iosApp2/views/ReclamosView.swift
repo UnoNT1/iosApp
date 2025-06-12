@@ -26,7 +26,7 @@ struct ReclamosView: View {
             } else{
                 List(reclamos) { reclamo in
                     //condicional para redirijir dependiendo si es mantenimiento o agenda o reclamo
-                    if "\(reclamo.pOrigen ?? "")" == "Alta OS AG" {
+                    if "\(reclamo.pOrigen ?? "")".contains("Alta OS") {
                         NavigationLink(destination: DetalleAgendaView(titular: reclamo.pTitular ?? "", detalle: reclamo.pDetalle ?? "", fecha: reclamo.pFecha ?? "", hora: reclamo.pHora ?? "", registro: reclamo.pRegistro ?? "", origen: reclamo.pOrigen ?? "")) {
                             VStack(alignment: .leading) {
                                 VStack(alignment: .leading){
@@ -152,7 +152,15 @@ struct ReclamosView: View {
             )
         } else if normalizedDetalle.contains("reclamo") {
             // Amarillo
-            Color.yellow // Un solo color para el amarillo
+            LinearGradient(
+                gradient: Gradient(colors: [
+                    Color(red: 1.0, green: 0.85, blue: 0.0),
+                    Color.yellow
+                ]),
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            
         } else if normalizedDetalle.contains("mantenimiento") {
             // Celeste
             Color.blue.opacity(0.6) // Un azul suave

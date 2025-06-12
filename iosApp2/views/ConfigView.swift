@@ -14,7 +14,7 @@ class ConfigData: ObservableObject {
     @Published var menuValue: String = "OS"
     @Published var usuarioConfig: String = "Demo"
     @Published var empresaConfig: String = "Demo"
-    @Published var ipConfig: String = "https://www.unont.com.ar/yavoy/sistemas/dato5/android/"
+    @Published var ipConfig: String = "https://www.unont.com.ar/yavoy"
 }
 
 struct ConfigView: View{

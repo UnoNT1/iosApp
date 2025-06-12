@@ -17,7 +17,7 @@ struct PendientesView: View {
     let empresaUsuario: String
     let usuarioApp: String
     // Nuevo closure para pasar los datos seleccionados a la vista padre
-    var onVisitaSelected: (String?, String?, String?, String?, String?, String?, String?, String?) -> Void // dir, titular, motivo, telefono, equipos
+    var onVisitaSelected: (String?, String?, String?, String?, String?, String?, String?, String?, String?) -> Void // dir, titular, motivo, telefono, equipos
     var body: some View {
         VStack(alignment: .leading){
                 HStack{
@@ -58,7 +58,8 @@ struct PendientesView: View {
                                 orden.peTre,   // Teléfono (peTre)
                                 orden.peNre,
                                 orden.peFirma,
-                                orden.peEst
+                                orden.peEst,
+                                orden.peNombre
                             )
                             print("Valores enviados a la vista padre:")
                             print("Dirección: \(orden.peDir ?? "N/A")")
@@ -67,6 +68,7 @@ struct PendientesView: View {
                             print("Teléfono: \(orden.peTre ?? "N/A")")
                             print("Equipos: \(orden.peFirma ?? "N/A")")
                             print("Persona: \(orden.peNre ?? "N/A")")
+                            print("Tipo: \(orden.peTre ?? "")")
                             // selectedVisita = orden
                         }) {
                             VStack(alignment: .leading) {

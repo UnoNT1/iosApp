@@ -146,7 +146,7 @@ struct IngresoView:View {
         }
         .sheet(isPresented: $isShowingMostrarPendientes){
             PendientesView(nombreUsuario: clienteSeleccionado?.dir_cl00 ?? "", empresaUsuario: configData.empresaConfig, usuarioApp: configData.usuarioConfig,// Aquí defines el closure que recibirá los datos
-                           onVisitaSelected: { dir, titular,cta, motivo, telefono, persona , equipos, estado in
+                           onVisitaSelected: { dir, titular,cta, motivo, telefono, persona , equipos, estado, tipoVisita in
                 self.selectedDir = dir
                 self.selectedTitular = titular
                 self.selectedCta = cta
@@ -156,7 +156,18 @@ struct IngresoView:View {
                 self.selectedNre = persona
                 self.selectedEst = estado
                 self.nombreEquipoSeleccionado = selectedEquipo ?? ""
-                // Puedes añadir lógica adicional aquí, como navegar a otra vista
+               
+                // Si no coincide, podrías dejar el actual o establecer un valor predeterminado.
+                if let newTipo = TipoDeIngreso(rawValue: tipoVisita ?? "") {
+                    self.tipoIngreso = newTipo
+                } else {
+                    // Opcional: Manejar casos donde el string no coincide con ningún tipo
+                    print("Advertencia: El tipo de visita '\(tipoVisita)' no coincide con ningún TipoDeIngreso conocido.")
+                    // Puedes decidir qué hacer aquí, por ejemplo, mantener el tipo actual
+                    // o establecer uno por defecto como .mantenimiento
+                    // self.tipoIngreso = .mantenimiento
+                }
+                
                 isShowingMostrarPendientes = false // Opcional: cerrar la hoja si la presentaste como sheet
             }
             )

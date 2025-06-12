@@ -15,6 +15,7 @@ struct NuevaOS: View {
     @State private var receptorNombre: String = ""
     @State private var receptorCuenta: String = ""
     @State private var motivo: String = ""
+    @State private var observacion: String = ""
     @State private var fecha: Date = Date()
     @State private var numeroOS: String = ""
     @State private var monto: String = ""
@@ -32,6 +33,12 @@ struct NuevaOS: View {
     let estadosPosibles = ["Pendiente", "En Proceso", "Conforme", "Observada", "Terminada OK"]
     let tiposServicioPosibles = ["Reparación", "Mantenimiento", "Instalación", "Reclamo", "Ingeniero", "Fact.Masiva", "Todos"]
     @State private var mostrarFotoView = false
+    
+    // Nuevos estados para la funcion NuevaOS
+    @State private var isSavingOS = false
+    @State private var showingSaveSuccessAlert = false
+    @State private var showingSaveErrorAlert = false
+    @State private var saveErrorMessage: String = ""
 
     init() {
         _numeroOperacionActual = State(initialValue: String(generarNumeroAleatorio()))
@@ -116,10 +123,50 @@ struct NuevaOS: View {
                        }
                        .frame(height: 40)
                    }
-                   
+                   Text("Observacion")
+                   TextField("Observacion", text: $observacion).padding().textFieldStyle(.plain)
                    Button("Guardar Nueva OS") {
-                       dismiss()
+                       // Formatear la fecha y hora para la API
+                       let dateFormatter = DateFormatter()
+                       dateFormatter.dateFormat = "yyyy-MM-dd"
+                       let formattedFecha = dateFormatter.string(from: fecha)
+                       
+                       let timeFormatter = DateFormatter()
+                       timeFormatter.dateFormat = "HH:mm"
+                       let formattedHora = timeFormatter.string(from: Date()) // Hora actual
+                       
+                       // Crear la instancia de IngresoData
+                       let ingresoData = IngresoData(
+                        titular: receptorNombre,
+                        motivo: tipoServicioSeleccionado, // Usar el tipo de servicio como 'motivo' para la API
+                        unico: equipoSeleccionado, // Generar un ID único para 'unico'
+                        operacion: numeroOperacionActual, // Usar el número de operación actual
+                        nroos: numeroOS.isEmpty ? "0" : numeroOS, // Si está vacío, enviar "0"
+                        obs: observacion,
+                        usuario: configData.usuarioConfig,
+                        cuenta: receptorCuenta.isEmpty ? "0" : receptorCuenta, // Si está vacío, enviar "0"
+                        detalle: motivo, // Usar el campo de motivo como 'detalle'
+                        accion: "Creación OS", // Acción por defecto
+                        estado: estadoSeleccionado, // Usar el estado seleccionado
+                        empresa: configData.empresaConfig,
+                        fecha: "",
+                        hora: ""
+                       )
+                       
+                       isSavingOS = true // Indicar que se está guardando
+                       registrarIngreso(data: ingresoData) { success, error in
+                           isSavingOS = false // Terminar el estado de guardado
+                           if success {
+                               showingSaveSuccessAlert = true
+                               // dismiss() // PodríasDismiss la vista aquí o en la alerta de éxito
+                           } else {
+                               saveErrorMessage = error?.localizedDescription ?? "Error desconocido al guardar la OS."
+                               showingSaveErrorAlert = true
+                           }
+                       }
                    }
+                   .disabled(isSavingOS) // Deshabilitar el botón mientras se guarda
+                   .opacity(isSavingOS ? 0.6 : 1.0) // Opacidad para indicar que está deshabilitado
                }.listRowSpacing(0)
                .toolbar {
                    ToolbarItem(placement: .navigationBarLeading) {

@@ -94,6 +94,7 @@ struct VerOsView: View {
                          Text("\(detalle.pUsu ?? "")").frame(maxWidth: .infinity).padding(1).background(.white).foregroundColor(.black).cornerRadius(8)
                          Text("\(detalle.pObs ?? "")").padding(1)*/
                     }.frame(maxWidth: .infinity)
+                    Spacer()
                     VStack(alignment: .leading){
                         Text("Observacion")
                         TextField("", text: $uiObservacion).frame(maxWidth: .infinity).padding(.vertical).background(Color.green)

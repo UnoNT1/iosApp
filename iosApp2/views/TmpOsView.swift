@@ -16,7 +16,7 @@ struct TmpOsView: View{
     var body: some View{
         VStack{
             if let error = error {
-                Text("Error: \(error.localizedDescription)")
+                
             } else if tmpOs.isEmpty {
                 Text("Cargando datos...")
             } else {

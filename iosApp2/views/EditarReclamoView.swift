@@ -35,100 +35,171 @@ struct DetalleReclamo: Codable, Identifiable {
     // Si los nombres de las propiedades coinciden exactamente con las claves JSON,
     // no necesitas un CodingKeys.
 }
-
-
+//vista de los reclamos o mantenimiento que estan pendientes y pueden ser tomados por alguien
 struct EditarReclamoView: View {
+    @State private var error: Error?
+    @Environment(\.dismiss) var dismiss
+    // 1. Define tu enum para los ítems del menú
+    enum OpcionReclamo: String, CaseIterable, Identifiable {
+        case tomarReclamo = "Tomar Reclamo"
+        case transferirReclamo = "Transferir Reclamo"
+        case suspenderReclamo = "Suspender Reclamo"
+        
+        var id: Self { self } // Conforme a Identifiable
+    }
+    @State private var opcionSeleccionada: OpcionReclamo = .tomarReclamo //variable q guarda el valor seleccionado del enum
+    //enum para seleccionar la demora del reclamos
+    enum DemoraReclamo: String, CaseIterable, Identifiable{
+        case quince = "15 minutos"
+        case mediaHora = "30 minutos"
+        case cuarentaYcinco = "45 minutos"
+        case unaHora = "1 Hora"
+        case masDeUnaHora = "Mas de 1 Hora"
+        
+        var id: Self { self } // Conforme a Identifiable
+    }
+    @State private var demoraSeleccionada: DemoraReclamo = .quince
     let reclamo: Reclamos
     @State var detalles: DetalleReclamo?
     // Estado para controlar si la tarea está marcada (true) o no (false)
     @State private var reclamoPendiente: Bool = true
     @State private var isShowingVerOs: Bool = false
     @State private var nroReclamo: String? = ""
-
+    @EnvironmentObject var configData: ConfigData
+    
+    //state que almacena el tmpOs, que solo necesitamos el numero de operacion de la tarea
+    @State var tmpOs: [TmpOS] = []
+    @State private var reg00: String = ""
     var body: some View {
-        VStack(alignment: .leading) {
-            HStack{
-                Text("\(detalles?.pUsu ?? "")")
-                Text("\(detalles?.pCel ?? "")").padding(.horizontal).foregroundStyle(Color.red).border(.gray, width: 2).cornerRadius(10)
-            }.padding(.bottom, 10)
-            HStack{
-                Text("Persona").foregroundStyle(Color.blue)
-                VStack{ Text(detalles?.pPer ?? "")
-                    Rectangle()
-                        .frame(height: 1) // Altura del subrayado
-                        .foregroundColor(.black) // Color del subrayado
-                        .frame(maxWidth: .infinity) // Ancho máximo
-                }
-            }.padding(.bottom)
-            HStack{
-                Text("Equipo").foregroundStyle(Color.blue)
-                
-                VStack{
-                    Text("\(detalles?.pUno ?? "")")
-                    Rectangle()
-                        .frame(height: 1) // Altura del subrayado
-                        .foregroundColor(.black) // Color del subrayado
-                        .frame(maxWidth: .infinity) // Ancho máximo
-                }
-            }.padding(.bottom)
-            HStack{
-                Text("Titular").foregroundStyle(Color.blue)
-                VStack{
-                    Text("\(detalles?.pTit ?? "")")
-                    Rectangle()
-                        .frame(height: 1) // Altura del subrayado
-                        .foregroundColor(.black) // Color del subrayado
-                        .frame(maxWidth: .infinity) // Ancho máximo
-                }
-            }.padding(.bottom)
-            HStack{
-                Text("Domicilio").foregroundStyle(Color.blue)
-                VStack{
-                    Text("\(detalles?.pDir ?? "")")
-                    Rectangle()
-                        .frame(height: 1) // Altura del subrayado
-                        .foregroundColor(.black) // Color del subrayado
-                        .frame(maxWidth: .infinity) // Ancho máximo
-                }
-            }.padding(.bottom)
-            HStack{
-                Text("Tarea pendiente").foregroundStyle(Color.blue)
-                // 3. El Toggle personalizado
-                Toggle(isOn: $reclamoPendiente) {
-                    // El 'label' del Toggle está vacío porque el texto ya lo pusimos al lado.
-                    // Podrías poner aquí un Text("") o dejarlo así.
-                }
-                .toggleStyle(.customCheckbox) // <-- ¡Este es el truco para que parezca una casilla!
-                Spacer()
-                Text("Hora")
-                Text("\(detalles?.pFec ?? "") \(detalles?.pHor ?? "")").padding().border(Color.black, width: 2).cornerRadius(10)
-            }.onTapGesture {
-                reclamoPendiente.toggle()
-            }
-            
-            Text("Motivo").foregroundStyle(Color.blue)
-            Text("\(detalles?.pMot ?? "")").font(.title3).padding(.vertical, 30).padding(.horizontal, 3).border(Color.red, width: 3)
-            Spacer()
-            
-            HStack(alignment: .center){
-                Button(action:{
+        ScrollView{
+            VStack(alignment: .leading) {
+                HStack{
+                    Text("\(detalles?.pUsu ?? "")")
+                    Text("\(detalles?.pCel ?? "")").padding(.horizontal).foregroundStyle(Color.red).border(.gray, width: 2).cornerRadius(10)
+                }.padding(.bottom, 10)
+                HStack{
+                    Text("Persona").foregroundStyle(Color.blue)
+                    VStack{ Text(detalles?.pPer ?? "")
+                        Rectangle()
+                            .frame(height: 1) // Altura del subrayado
+                            .foregroundColor(.black) // Color del subrayado
+                            .frame(maxWidth: .infinity) // Ancho máximo
+                    }
+                }.padding(.bottom)
+                HStack{
+                    Text("Equipo").foregroundStyle(Color.blue)
                     
-                }){
                     VStack{
-                        Image("yavoy").resizable().scaledToFill().frame(width: 40, height: 40)
-                        Text("Ya Voy").font(.footnote).foregroundStyle(.orange)
-                    }.padding(.vertical, 10).padding(.horizontal, 20).background(.orange.opacity(0.5)).border(.orange, width: 2).cornerRadius(4)
-                }.padding(.horizontal)
+                        Text("\(detalles?.pUno ?? "")")
+                        Rectangle()
+                            .frame(height: 1) // Altura del subrayado
+                            .foregroundColor(.black) // Color del subrayado
+                            .frame(maxWidth: .infinity) // Ancho máximo
+                    }
+                }.padding(.bottom)
+                HStack{
+                    Text("Titular").foregroundStyle(Color.blue)
+                    VStack{
+                        Text("\(detalles?.pTit ?? "")")
+                        Rectangle()
+                            .frame(height: 1) // Altura del subrayado
+                            .foregroundColor(.black) // Color del subrayado
+                            .frame(maxWidth: .infinity) // Ancho máximo
+                    }
+                }.padding(.bottom)
+                HStack{
+                    Text("Domicilio").foregroundStyle(Color.blue)
+                    VStack{
+                        Text("\(detalles?.pDir ?? "")")
+                        Rectangle()
+                            .frame(height: 1) // Altura del subrayado
+                            .foregroundColor(.black) // Color del subrayado
+                            .frame(maxWidth: .infinity) // Ancho máximo
+                    }
+                }.padding(.bottom)
+                HStack{
+                    Text("Tarea pendiente").foregroundStyle(Color.blue)
+                    // 3. El Toggle personalizado
+                    Toggle(isOn: $reclamoPendiente) {
+                        // El 'label' del Toggle está vacío porque el texto ya lo pusimos al lado.
+                        // Podrías poner aquí un Text("") o dejarlo así.
+                    }
+                    .toggleStyle(.customCheckbox) // <-- ¡Este es el truco para que parezca una casilla!
+                    Spacer()
+                    Text("Hora")
+                    Text("\(detalles?.pFec ?? "") \(detalles?.pHor ?? "")").padding().border(Color.black, width: 2).cornerRadius(10)
+                }.onTapGesture {
+                    reclamoPendiente.toggle()
+                }
                 
-                //boton para editar el reclamo
-                Button(action:{
-                    isShowingVerOs = true
-                }){
-                    VStack{
-                        Image("os_48").resizable().scaledToFill().frame(width: 40, height: 40)
-                        Text("Editar").font(.footnote).foregroundStyle(.blue)
-                    }.padding(.vertical, 10).padding(.horizontal, 20).background(.blue.opacity(0.5)).border(.orange, width: 2).cornerRadius(4)
-                }.padding(.horizontal)
+                Text("Motivo").foregroundStyle(Color.blue)
+                Text("\(detalles?.pMot ?? "")").font(.title3).padding(.vertical, 30).padding(.horizontal, 3).border(Color.red, width: 3)
+                
+                //menu desplegable de trasnferir reclamo, tomarlo, etc
+                HStack{
+                    Text("Accion")
+                    Picker("", selection: $opcionSeleccionada) {
+                        ForEach(OpcionReclamo.allCases) { opcion in
+                            Text(opcion.rawValue)
+                                .tag(opcion) // Asigna el valor del enum como tag
+                        }
+                    }
+                    .pickerStyle(.menu) // Esto lo convierte en un menú desplegable
+                    .padding(.horizontal)
+                    .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 1))
+                    .padding(.horizontal)
+                }
+                HStack{
+                    Text("Demora")
+                    Picker("", selection: $demoraSeleccionada){
+                        ForEach(DemoraReclamo.allCases){ opcion in
+                            Text(opcion.rawValue).tag(opcion)
+                        }
+                    }
+                    .pickerStyle(.menu) // Esto lo convierte en un menú desplegable
+                    .padding(.horizontal)
+                    .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 1))
+                    .padding(.horizontal)
+                    
+                }
+                HStack{
+                    Text("Usuario")
+                    Text(configData.usuarioConfig)
+                }
+                
+                Spacer()
+                
+                HStack(alignment: .center){
+                    Button(action:{
+                        yaVoy(nroOS: nroReclamo ?? "", est_tarea:"Pendiente" , obs_reclamo: "", usu_tarea: configData.usuarioConfig, dem_reclamo: demoraSeleccionada.rawValue, r00_reclamo:detalles?.pReg ?? "", cta_reclamo: detalles?.pCta ?? "", tit_reclamo: detalles?.pTit ?? "", empresa: configData.empresaConfig){ result in
+                            DispatchQueue.main.async {
+                                switch result {
+                                case .success:
+                                    print("Orden de servicio \(nroReclamo) tomado exitosamente!")
+                                    dismiss() // Regresa a la vista anterior
+                                case .failure(let error):
+                                    print("Error al tomar el reclamo \(nroReclamo): \(error)")
+                                    // Muestra un mensaje de error al usuario
+                                }
+                            }
+                        }
+                        }){
+                        VStack{
+                            Image("yavoy").resizable().scaledToFill().frame(width: 40, height: 40)
+                            Text("Ya Voy").font(.footnote).foregroundStyle(.orange)
+                        }.padding(.vertical, 10).padding(.horizontal, 20).background(.orange.opacity(0.5)).border(.orange, width: 2).cornerRadius(4)
+                    }.padding(.horizontal)
+                    
+                    //boton para editar el reclamo
+                    Button(action:{
+                        isShowingVerOs = true
+                    }){
+                        VStack{
+                            Image("os_48").resizable().scaledToFill().frame(width: 40, height: 40)
+                            Text("Editar").font(.footnote).foregroundStyle(.blue)
+                        }.padding(.vertical, 10).padding(.horizontal, 20).background(.blue.opacity(0.5)).border(.orange, width: 2).cornerRadius(4)
+                    }.padding(.horizontal)
+                }.frame(maxWidth: .infinity)
             }.frame(maxWidth: .infinity)
         }.frame(maxWidth: .infinity)
         .fullScreenCover(isPresented: $isShowingVerOs){
@@ -142,6 +213,20 @@ struct EditarReclamoView: View {
                     self.nroReclamo = detalle.pReg
                 } else if let error = error {
                     print("Error al cargar detalles: \(error)")
+                }
+            }
+        }
+        //onAPPEAR para cargar el numero de operacion de la tarea
+        .onAppear(){
+            obtenerDetallesTMPOS(nroOS: nroReclamo ?? "") {  result in
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success:
+                        print("ok")
+                    case .failure(let err):
+                        error = err
+                        print("Error al obtener detalles del reclamo \(nroReclamo): \(err.localizedDescription)")
+                    }
                 }
             }
         }

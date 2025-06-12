@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TmpOS: Codable {
+struct TmpOS: Codable, Hashable{
     let tmpNombre: String?
     let tmpCodigo: String?
     let tmpCantidad: String?
